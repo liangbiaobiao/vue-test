@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="todo.css">
+    <script src="../vue.js"></script>
+</head>
+<body style="padding-top: 100px">
+<div id="app">
+    <input type="text" v-model="con" @keyup.enter="submit" v-focus placeholder="请输入内容"><!-- 添加的数据每一个status默认为0 -->
+    <div class="aa">
+        <input type="button" @click="changestatus('all')" value="全部" :class="status=='all'?'check':''"><!-- this.status=all -->
+        <input type="button" @click="changestatus('0')" value="未完成" :class="status=='0'?'check':''"><!-- this.status=0;0表示未完成的status -->
+        <input type="button" @click="changestatus('1')" value="已完成" :class="status=='1'?'check':''"><!-- this.status=1；1表示已完成的status-->
+    </div>
+
+    <ul class="list">
+        <li v-for="item in datas" v-if="item.edit"><!-- 获取所有的数据(item)从datas -->
+
+            <span class="val" @click="changestate(item)" :class="item.status=='1'?'active':''"></span>
+            <!-- 当点击的时候0->1;1->0;0代表未完成的状态,1代表完成的状体，点击互转 -->
+
+            <p @dblclick="edit(item)">{{item.title}}</p>
+            <span class="del" @click="del(item.id)">删除</span>
+        </li>
+        <li v-else="item.edit">
+            <input type="text" v-model="item.title" @blur="edit(item)">
+        </li>
+    </ul>
+    <div v-show="all.length==0">没有数据</div>
+</div>
+<script src="todo.js"></script>
+</body>
+</html>
